@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -33,6 +35,16 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Notifiable::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $notifiables;
+
+    public function __construct()
+    {
+        $this->notifiables = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -110,5 +122,35 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Notifiable[]
+     */
+    public function getNotifiables(): Collection
+    {
+        return $this->notifiables;
+    }
+
+    public function addNotifiable(Notifiable $notifiable): self
+    {
+        if (!$this->notifiables->contains($notifiable)) {
+            $this->notifiables[] = $notifiable;
+            $notifiable->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotifiable(Notifiable $notifiable): self
+    {
+        if ($this->notifiables->removeElement($notifiable)) {
+            // set the owning side to null (unless already changed)
+            if ($notifiable->getUser() === $this) {
+                $notifiable->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
