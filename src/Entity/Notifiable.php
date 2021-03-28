@@ -33,7 +33,7 @@ class Notifiable
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $email_confirmed_at;
+    private $emailConfirmedAt;
 
     /**
      * @ORM\Column(type="text")
@@ -71,12 +71,12 @@ class Notifiable
 
     public function getEmailConfirmedAt(): ?\DateTimeInterface
     {
-        return $this->email_confirmed_at;
+        return $this->emailConfirmedAt;
     }
 
-    public function setEmailConfirmedAt(?\DateTimeInterface $email_confirmed_at): self
+    public function setEmailConfirmedAt(?\DateTimeInterface $emailConfirmedAt): self
     {
-        $this->email_confirmed_at = $email_confirmed_at;
+        $this->emailConfirmedAt = $emailConfirmedAt;
 
         return $this;
     }
