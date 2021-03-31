@@ -44,9 +44,15 @@ class User implements UserInterface
      */
     private $notifiables;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Schedule::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $schedules;
+
     public function __construct()
     {
         $this->notifiables = new ArrayCollection();
+        $this->schedules = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -151,6 +157,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($notifiable->getUser() === $this) {
                 $notifiable->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Schedule[]
+     */
+    public function getSchedules(): Collection
+    {
+        return $this->schedules;
+    }
+
+    public function addSchedule(Schedule $schedule): self
+    {
+        if (!$this->schedules->contains($schedule)) {
+            $this->schedules[] = $schedule;
+            $schedule->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSchedule(Schedule $schedule): self
+    {
+        if ($this->schedules->removeElement($schedule)) {
+            // set the owning side to null (unless already changed)
+            if ($schedule->getUser() === $this) {
+                $schedule->setUser(null);
             }
         }
 

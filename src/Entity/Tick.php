@@ -3,13 +3,18 @@
 namespace App\Entity;
 
 use App\Repository\TickRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass=TickRepository::class)
  */
 class Tick
 {
+    use TimestampableEntity;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -41,6 +46,16 @@ class Tick
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $emailConfirmedAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity=TickQueue::class, mappedBy="tick", orphanRemoval=true)
+     */
+    private $tickQueues;
+
+    public function __construct()
+    {
+        $this->tickQueues = new ArrayCollection();
+    }
 
     public function getId(): int
     {
@@ -103,6 +118,36 @@ class Tick
     public function setEmailConfirmedAt(?\DateTimeInterface $emailConfirmedAt): self
     {
         $this->emailConfirmedAt = $emailConfirmedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TickQueue[]
+     */
+    public function getTickQueues(): Collection
+    {
+        return $this->tickQueues;
+    }
+
+    public function addTickQueue(TickQueue $tickQueue): self
+    {
+        if (!$this->tickQueues->contains($tickQueue)) {
+            $this->tickQueues[] = $tickQueue;
+            $tickQueue->setTick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTickQueue(TickQueue $tickQueue): self
+    {
+        if ($this->tickQueues->removeElement($tickQueue)) {
+            // set the owning side to null (unless already changed)
+            if ($tickQueue->getTick() === $this) {
+                $tickQueue->setTick(null);
+            }
+        }
 
         return $this;
     }
