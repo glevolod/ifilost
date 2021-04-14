@@ -48,45 +48,32 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <div class="form-row">
-                            <div class="form-group col-md-3">
-                                <label for="startingDate">Starting Date</label>
-                                <input type="date" class="form-control" id="startingDate" placeholder="Date">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="time">Time</label>
-                                <input type="time" class="form-control" id="time" placeholder="Time">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="frequency">Frequency</label>
-                                <input type="number" class="form-control" id="frequency" placeholder="Frequency">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="exceptions">Frequency</label>
-                                <input type="text" class="form-control" id="exceptions" placeholder="Exceptions">
-                            </div>
+                    {{ form_start(form) }}
+                    {{ form_errors(form) }}
+
+                    <div class="text-center pb-6">
+                        {{ form_label(form.type, null, {'label_attr': {'class': 'font-weight-bold'}}) }}
+                        {{ form_widget(form.type, {'attr': {'class': 'form-check-inline'}}) }}
+                    </div>
+                    <hr/>
+                    <div class="form-row">
+                        <div class="col-4">
+                            {{ form_label(form.date, null, {'label_attr': {'class': 'font-weight-bold'}}) }}
+                            {{ form_widget(form.date) }}</div>
+                        <div class="col-4">
+                            {{ form_label(form.time, null, {'label_attr': {'class': 'font-weight-bold'}}) }}
+                            {{ form_widget(form.time) }}</div>
+                        <div class="col-4">
+                            {{ form_row(form.frequency) }}
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-3">
-                                <label for="timeout">Timeout</label>
-                                <input type="number" class="form-control" id="timeout" placeholder="Timeout">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="time">Reminder timeout</label>
-                                <input type="number" class="form-control" id="reminderTimeout"
-                                       placeholder="Reminder timeout">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-3">
-                                <label for="notifiables">Notifiables</label>
-                                <input type="text" class="form-control" id="notifiables" placeholder="Notifiables">
-                            </div>
-                        </div>
-                    </form>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-4">{{ form_row(form.timeout) }}</div>
+                        <div class="col-4">{{ form_row(form.reminderTimeout) }}</div>
+                        <div class="col-4">{{ form_row(form.exceptions) }}</div>
+                    </div>
+                    {{ form_end(form) }}
                 </div>
-                {{ form(scheduleForm) }}
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary">Save</button>

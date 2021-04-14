@@ -13,9 +13,23 @@ class Schedule
 {
     use TimestampableEntity;
 
-    const TYPE_SINGLE = 0;
-    const TYPE_PERIODIC = 1;
-    const TYPE_PERIODIC_SINCE = 2;
+    const TYPE_SINGLE = 10;
+    const TYPE_PERIODIC = 20;
+    const TYPE_PERIODIC_SINCE = 30;
+
+    public static function getTypes(): array
+    {
+        return [
+            self::TYPE_SINGLE => 'single',
+            self::TYPE_PERIODIC => 'periodic',
+            self::TYPE_PERIODIC_SINCE => 'periodic since',
+        ];
+    }
+
+    public static function getTypeName(int $type): string
+    {
+        return self::getTypes()[$type];
+    }
 
     /**
      * @ORM\Id

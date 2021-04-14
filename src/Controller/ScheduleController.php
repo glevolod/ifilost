@@ -18,6 +18,6 @@ class ScheduleController extends AbstractController
         $schedule = new Schedule();
         $scheduleForm = $this->createForm(ScheduleFormType::class, $schedule);
 
-        return $this->render('schedule/index.html.twig', ['scheduleForm' => $scheduleForm->createView()]);
+        return $this->render('schedule/index.html.twig', ['form' => $scheduleForm->createView()]);
     }
 }
