@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ app.request.attributes.get('_controller') }}{% endblock %}
+
+{% block body %}
+    <div class="row pb-2">
+        <button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal"
+                data-target="#addScheduleModal">Add
+        </button>
+    </div>
+    <div class="row">
+        <div class="offset-md-3 col-md-5">
+            {{ form_start(form) }}
+            <div class="text-center pb-6">
+                {{ form_label(form.type, null, {'label_attr': {'class': 'font-weight-bold'}}) }}
+                {{ form_widget(form.type, {'attr': {'class': 'form-check-inline'}}) }}
+            </div>
+            <hr/>
+            <div class="form-row">
+                <div class="col-4">
+                    {{ form_label(form.date, null, {'label_attr': {'class': 'font-weight-bold'}}) }}
+                    {{ form_widget(form.date) }}</div>
+                <div class="col-4">
+                    {{ form_label(form.time, null, {'label_attr': {'class': 'font-weight-bold'}}) }}
+                    {{ form_widget(form.time) }}</div>
+                <div class="col-4">
+                    {{ form_row(form.frequency) }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-4">{{ form_row(form.timeout) }}</div>
+                <div class="col-4">{{ form_row(form.reminderTimeout) }}</div>
+                <div class="col-4">{{ form_row(form.exceptions) }}</div>
+            </div>
+            {{ form_errors(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

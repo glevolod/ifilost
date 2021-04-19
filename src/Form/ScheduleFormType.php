@@ -15,12 +15,56 @@ class ScheduleFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('date', TextType::class)
-            ->add('time', TextType::class)
-            ->add('frequency', NumberType::class)
-            ->add('exceptions')
-            ->add('timeout', NumberType::class)
-            ->add('reminderTimeout', NumberType::class)
+            ->add(
+                'date',
+                TextType::class,
+                [
+                    'attr' => [
+                        'class' => 'app-datepicker datetimepicker-input',
+                        'data-toggle' => 'datetimepicker',
+                        'data-target' => '.app-datepicker',
+                    ],
+                ]
+            )
+            ->add(
+                'time',
+                TextType::class,
+                [
+                    'attr' => [
+                        'class' => 'app-timepicker datetimepicker-input',
+                        'data-toggle' => 'datetimepicker',
+                        'data-target' => '.app-timepicker',
+                    ],
+                ]
+            )
+            ->add(
+                'frequency',
+                NumberType::class,
+                [
+                    'label' => 'Frequency (h)',
+                ]
+            )
+            ->add(
+                'exceptions',
+                null,
+                [
+                    'label' => 'Exceptions (week days)',
+                ]
+            )
+            ->add(
+                'timeout',
+                NumberType::class,
+                [
+                    'label' => 'Timeout (m)',
+                ]
+            )
+            ->add(
+                'reminderTimeout',
+                NumberType::class,
+                [
+                    'label' => 'Reminder timeout (m)',
+                ]
+            )
             ->add(
                 'type',
                 ChoiceType::class,

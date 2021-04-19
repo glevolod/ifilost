@@ -6,19 +6,32 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
+import 'admin-lte/plugins/fontawesome-free/css/all.min.css'
+import 'admin-lte/plugins/daterangepicker/daterangepicker.css'
+import 'admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css'
+import 'admin-lte/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css'
+import 'admin-lte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css'
+import 'admin-lte/plugins/select2/css/select2.min.css'
+import 'admin-lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'
+import 'admin-lte/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css'
+import 'admin-lte/dist/css/adminlte.css'
 import '../css/app.css';
-import 'bootstrap/dist/css/bootstrap.min.css'
-import '@fortawesome/fontawesome-free/css/all.css'
-import 'ionicons/package.json'
-import 'admin-lte/dist/css/adminlte.min.css'
 
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
-// import $ from 'jquery';
-require('jquery');
-require('ionicons/package.json');
-require('bootstrap');
-require('admin-lte');
-require('@fortawesome/fontawesome-free/js/all');
-
-// console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+import $ from 'jquery';
+window.$ = $;
+import moment from 'moment'
+moment.locale(navigator.language);
+window.moment = moment;
+require('admin-lte/plugins/bootstrap/js/bootstrap.bundle')
+require('admin-lte/plugins/select2/js/select2.full')
+require('admin-lte/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min')
+require('moment/moment')
+require('admin-lte/plugins/inputmask/jquery.inputmask.min')
+require('admin-lte/plugins/daterangepicker/daterangepicker')
+require('admin-lte/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min')
+require('admin-lte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min')
+require('admin-lte/plugins/bootstrap-switch/js/bootstrap-switch.min')
+require('admin-lte/dist/js/adminlte')
+require('./all-pages/datetimepickers')
