@@ -17,15 +17,9 @@
             </div>
             <hr/>
             <div class="form-row">
-                <div class="col-4">
-                    {{ form_label(form.date, null, {'label_attr': {'class': 'font-weight-bold'}}) }}
-                    {{ form_widget(form.date) }}</div>
-                <div class="col-4">
-                    {{ form_label(form.time, null, {'label_attr': {'class': 'font-weight-bold'}}) }}
-                    {{ form_widget(form.time) }}</div>
-                <div class="col-4">
-                    {{ form_row(form.frequency) }}
-                </div>
+                <div class="col-4">{{ form_row(form.date) }}</div>
+                <div class="col-4">{{ form_row(form.time) }}</div>
+                <div class="col-4">{{ form_row(form.frequency) }}</div>
             </div>
             <div class="form-row">
                 <div class="col-4">{{ form_row(form.timeout) }}</div>

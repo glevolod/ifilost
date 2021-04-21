@@ -1,0 +1,31 @@
+{% block date_picker_row %}
+    {{ form_label(form) }}
+    {% set class = 'app-datepicker datetimepicker-input' %}
+    {% set class = form.vars.attr.class is defined ? class ~ ' ' ~ form.vars.attr.class : class %}
+    {{ form_widget(
+        form,
+        {
+            'attr': {
+                'class': class, 'data-toggle': 'datetimepicker', 'data-target': '#' ~ form.vars.id
+            }
+        }
+    ) }}
+    {{ form_help(form) }}
+    {{ form_errors(form) }}
+{% endblock %}
+
+{% block time_picker_row %}
+    {{ form_label(form) }}
+    {% set class = 'app-timepicker datetimepicker-input' %}
+    {% set class = form.vars.attr.class is defined ? class ~ ' ' ~ form.vars.attr.class : class %}
+    {{ form_widget(
+        form,
+        {
+            'attr': {
+            'class': class, 'data-toggle': 'datetimepicker', 'data-target': '#' ~ form.vars.id
+        }
+        }
+    ) }}
+    {{ form_help(form) }}
+    {{ form_errors(form) }}
+{% endblock %}

@@ -1,5 +1,4 @@
 $(function () {
-  console.log('datetime');
   $('.app-datepicker').datetimepicker({
     format: 'YYYY-MM-DD',
   });
