@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Session;
 use App\Entity\TickQueue;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -47,4 +48,28 @@ class TickQueueRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @param  \DateTimeInterface  $startDate
+     * @param  int|null  $amount
+     * @return array|TickQueue[]
+     */
+    public function getPreparedForRun(\DateTimeInterface $startDate, ?int $amount = null)
+    {
+        $queryBuilder = $this->createQueryBuilder('tq')
+            ->select('tq, t')
+            ->join('tq.tick', 't')
+            ->where('tq.startDateTime <= :dateTime')
+            ->andWhere('tq.status = :status')
+            ->setParameter('dateTime', $startDate)
+            ->setParameter('status', TickQueue::STATUS_NEW)
+            ->orderBy('tq.startDateTime', 'DESC');
+        if ($amount) {
+            $queryBuilder->setMaxResults($amount);
+        }
+        $query = $queryBuilder->getQuery();
+        $result = $query->getResult();
+
+        return $result;
+    }
 }
