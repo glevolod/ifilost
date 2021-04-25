@@ -23,7 +23,7 @@ class DatePickerType extends AbstractType implements DataTransformerInterface
             return '';
         }
 
-        if (null !== $value && !$value instanceof \DateTimeInterface) {
+        if (!$value instanceof \DateTimeInterface) {
             throw new TransformationFailedException('Expected a \DateTimeInterface.');
         }
 

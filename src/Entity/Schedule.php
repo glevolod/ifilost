@@ -61,7 +61,7 @@ class Schedule
     private $frequency;
 
     /**
-     * initially days of week when does't needed to confirm
+     * initially days of week when doesn't needed to confirm
      * @ORM\Column(type="json", nullable=true)
      */
     private $exceptions = [];

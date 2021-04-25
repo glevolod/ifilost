@@ -6,13 +6,15 @@ use App\Entity\Schedule;
 use App\Extension\Form\DatePickerType;
 use App\Extension\Form\TimePickerType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ScheduleFormType extends AbstractType
+class ScheduleFormType extends AbstractType implements DataTransformerInterface
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -58,6 +60,8 @@ class ScheduleFormType extends AbstractType
                 ]
             )
             ->add('save', SubmitType::class);
+
+        $builder->get('exceptions')->addModelTransformer($this);
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -68,4 +72,31 @@ class ScheduleFormType extends AbstractType
             ]
         );
     }
+
+    public function transform($value)
+    {
+        if (null === $value) {
+            return null;
+        }
+
+        if (!is_array($value)) {
+            throw new TransformationFailedException('Expected an array.');
+        }
+
+        return implode(',', $value);
+    }
+
+    public function reverseTransform($value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+        try {
+            return explode(',', $value);
+        } catch (\Exception $e) {
+            throw new TransformationFailedException($e->getMessage(), $e->getCode(), $e);
+        }
+
+    }
+
 }

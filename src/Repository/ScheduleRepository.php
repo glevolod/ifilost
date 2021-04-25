@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Schedule;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,22 +20,19 @@ class ScheduleRepository extends ServiceEntityRepository
         parent::__construct($registry, Schedule::class);
     }
 
-    // /**
-    //  * @return Schedule[] Returns an array of Schedule objects
-    //  */
-    /*
-    public function findByExampleField($value)
+     /**
+      * @return Schedule[] Returns an array of Schedule objects
+      */
+    public function findByUserField(User $user)
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('s.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('s.id', 'DESC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Schedule

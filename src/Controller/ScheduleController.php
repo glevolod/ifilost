@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Schedule;
 use App\Form\ScheduleFormType;
+use App\Repository\ScheduleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,9 +16,10 @@ class ScheduleController extends AbstractController
     /**
      * @Route("/schedule", name="schedule")
      */
-    public function index(): Response
+    public function index(ScheduleRepository $scheduleRepository): Response
     {
-        return $this->render('schedule/index.html.twig');
+        $schedules = $scheduleRepository->findByUserField($this->getUser());
+        return $this->render('schedule/index.html.twig', ['schedules' => $schedules]);
     }
 
     /**

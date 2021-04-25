@@ -20,10 +20,10 @@ class TimePickerType extends AbstractType implements DataTransformerInterface
     public function transform($value)
     {
         if (null === $value) {
-            return '';
+            return null;
         }
 
-        if (null !== $value && !$value instanceof \DateTimeInterface) {
+        if (!$value instanceof \DateTimeInterface) {
             throw new TransformationFailedException('Expected a \DateTimeInterface.');
         }
 
