@@ -49,10 +49,20 @@ class User implements UserInterface
      */
     private $schedules;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Tick::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $tick;
+
     public function __construct()
     {
         $this->notifiables = new ArrayCollection();
         $this->schedules = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->email;
     }
 
     public function getId(): ?int
@@ -189,6 +199,23 @@ class User implements UserInterface
                 $schedule->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTick(): ?Tick
+    {
+        return $this->tick;
+    }
+
+    public function setTick(Tick $tick): self
+    {
+        // set the owning side of the relation if necessary
+        if ($tick->getUser() !== $this) {
+            $tick->setUser($this);
+        }
+
+        $this->tick = $tick;
 
         return $this;
     }

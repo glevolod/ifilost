@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tick{% endblock %}
+
+{% block body %}
+    <h1>Tick</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ tick.id }}</td>
+            </tr>
+            <tr>
+                <th>FailSign</th>
+                <td>{{ tick.failSign }}</td>
+            </tr>
+            <tr>
+                <th>Sign</th>
+                <td>{{ tick.sign }}</td>
+            </tr>
+            <tr>
+                <th>Prompt</th>
+                <td>{{ tick.prompt }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ tick.email }}</td>
+            </tr>
+            <tr>
+                <th>EmailConfirmedAt</th>
+                <td>{{ tick.emailConfirmedAt ? tick.emailConfirmedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ tick.createdAt ? tick.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ tick.updatedAt ? tick.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('tick_index') }}">back to list</a>
+
+    <a href="{{ path('tick_edit', {'id': tick.id}) }}">edit</a>
+
+    {{ include('tick/_delete_form.html.twig') }}
+{% endblock %}

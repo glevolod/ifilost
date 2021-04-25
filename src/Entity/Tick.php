@@ -52,6 +52,12 @@ class Tick
      */
     private $tickQueues;
 
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="tick", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
     public function __construct()
     {
         $this->tickQueues = new ArrayCollection();
@@ -148,6 +154,18 @@ class Tick
                 $tickQueue->setTick(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

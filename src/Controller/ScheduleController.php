@@ -18,7 +18,7 @@ class ScheduleController extends AbstractController
      */
     public function index(ScheduleRepository $scheduleRepository): Response
     {
-        $schedules = $scheduleRepository->findByUserField($this->getUser());
+        $schedules = $scheduleRepository->findByUser($this->getUser());
         return $this->render('schedule/index.html.twig', ['schedules' => $schedules]);
     }
 
@@ -28,10 +28,10 @@ class ScheduleController extends AbstractController
     public function add(Request $request, EntityManagerInterface $manager): Response
     {
         $schedule = new Schedule();
-        $schedule->setUser($this->getUser());
         $scheduleForm = $this->createForm(ScheduleFormType::class, $schedule);
         $scheduleForm->handleRequest($request);
         if ($scheduleForm->isSubmitted() && $scheduleForm->isValid()) {
+            $schedule->setUser($this->getUser());
             $manager->persist($schedule);
             $manager->flush();
 

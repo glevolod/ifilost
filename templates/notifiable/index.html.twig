@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Notifiable index{% endblock %}
+
+{% block body %}
+    <h1>Notifiable index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>EmailConfirmedAt</th>
+                <th>Text</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for notifiable in notifiables %}
+            <tr>
+                <td>{{ notifiable.id }}</td>
+                <td>{{ notifiable.email }}</td>
+                <td>{{ notifiable.emailConfirmedAt ? notifiable.emailConfirmedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ notifiable.text }}</td>
+                <td>{{ notifiable.createdAt ? notifiable.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ notifiable.updatedAt ? notifiable.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('notifiable_show', {'id': notifiable.id}) }}">show</a>
+                    <a href="{{ path('notifiable_edit', {'id': notifiable.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('notifiable_new') }}">Create new</a>
+{% endblock %}

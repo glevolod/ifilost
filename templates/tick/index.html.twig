@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tick index{% endblock %}
+
+{% block body %}
+    <h1>Tick index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>FailSign</th>
+                <th>Sign</th>
+                <th>Prompt</th>
+                <th>Email</th>
+                <th>EmailConfirmedAt</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tick in ticks %}
+            <tr>
+                <td>{{ tick.id }}</td>
+                <td>{{ tick.failSign }}</td>
+                <td>{{ tick.sign }}</td>
+                <td>{{ tick.prompt }}</td>
+                <td>{{ tick.email }}</td>
+                <td>{{ tick.emailConfirmedAt ? tick.emailConfirmedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ tick.createdAt ? tick.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ tick.updatedAt ? tick.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('tick_show', {'id': tick.id}) }}">show</a>
+                    <a href="{{ path('tick_edit', {'id': tick.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('tick_new') }}">Create new</a>
+{% endblock %}
