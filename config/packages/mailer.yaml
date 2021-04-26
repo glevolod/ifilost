@@ -1,3 +1,11 @@
 framework:
     mailer:
         dsn: '%env(MAILER_DSN)%'
+        envelope:
+            sender: '%env(MAIL_FROM)%'
+#            recipients: ['mail@mail.com']
+        headers:
+            from: "If I'm lost <%env(MAIL_FROM)%>"
+#            to: 'mail1@mail.com'
+#            bcc: 'mail2@mail.com'
+#            X-Custom-Header: 'X-Custom-Header'

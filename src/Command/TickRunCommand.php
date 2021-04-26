@@ -34,6 +34,13 @@ class TickRunCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
+        do {
+            $startDate = new \DateTime();
+            $amount = $this->tickManager->runTicks($startDate);
+
+            $io->success("amount ticks run on {$startDate->format('Y-m-d H:i:s')} : $amount");
+            sleep(40);
+        } while (true);
         $startDate = new \DateTime();
         $amount = $this->tickManager->runTicks($startDate);
 
