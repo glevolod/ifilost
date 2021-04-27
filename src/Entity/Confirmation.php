@@ -13,7 +13,7 @@ class Confirmation
 {
     use TimestampableEntity;
 
-    const STATUS_NEW = 0;
+    const STATUS_WAITING = 0;
     const STATUS_CONFIRMED = 1;
     const STATUS_MISSED = 2;
     const STATUS_ATTEMPTS_EXCEEDED = 3;
@@ -32,12 +32,6 @@ class Confirmation
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=Schedule::class, inversedBy="confirmation", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $schedule;
-
-    /**
      * @ORM\Column(type="smallint", options={"default":0})
      */
     private $attempts = 0;
@@ -45,28 +39,27 @@ class Confirmation
     /**
      * @ORM\Column(type="smallint", options={"default":0})
      */
-    private $status = self::STATUS_NEW;
+    private $status = self::STATUS_WAITING;
 
     /**
      * @ORM\Column(type="smallint", options={"default":0})
      */
     private $type = self::TYPE_FIRST_CONFIRMATION;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=ConfirmationQueue::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $queue;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $maxDateTime;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getSchedule(): ?Schedule
-    {
-        return $this->schedule;
-    }
-
-    public function setSchedule(Schedule $schedule): self
-    {
-        $this->schedule = $schedule;
-
-        return $this;
     }
 
     public function getAttempts(): ?int
@@ -101,6 +94,30 @@ class Confirmation
     public function setType(int $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getQueue(): ?ConfirmationQueue
+    {
+        return $this->queue;
+    }
+
+    public function setQueue(?ConfirmationQueue $queue): self
+    {
+        $this->queue = $queue;
+
+        return $this;
+    }
+
+    public function getMaxDateTime(): ?\DateTimeInterface
+    {
+        return $this->maxDateTime;
+    }
+
+    public function setMaxDateTime(\DateTimeInterface $maxDateTime): self
+    {
+        $this->maxDateTime = $maxDateTime;
 
         return $this;
     }

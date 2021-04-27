@@ -2,7 +2,7 @@
 
 namespace App\Event\Subscriber;
 
-use App\Entity\TickQueue;
+use App\Entity\ConfirmationQueue;
 use App\Event\Event\NewScheduleEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -25,14 +25,15 @@ class ScheduleSubscriber implements EventSubscriberInterface
     {
         $schedule = $event->getSchedule();
         $user = $schedule->getUser();
-        $queue = new TickQueue();
-        $startTime = \DateTime::createFromFormat(
+        $queue = new ConfirmationQueue();
+        $sendDateTime = \DateTime::createFromFormat(
             'Y-m-d H:i',
             $schedule->getDate()->format('Y-m-d').' '.$schedule->getTime()->format('H:i')
         );
         $queue
-            ->setStartDateTime($startTime)
-            ->setTick($user->getTick());
+            ->setSendDateTime($sendDateTime)
+            ->setTick($user->getTick())
+            ->setSchedule($schedule);
         $this->manager->persist($queue);
     }
 

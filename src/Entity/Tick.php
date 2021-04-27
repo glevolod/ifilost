@@ -48,19 +48,19 @@ class Tick
     private $emailConfirmedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=TickQueue::class, mappedBy="tick", orphanRemoval=true)
-     */
-    private $tickQueues;
-
-    /**
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="tick", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ConfirmationQueue::class, mappedBy="tick")
+     */
+    private $confirmationQueues;
+
     public function __construct()
     {
-        $this->tickQueues = new ArrayCollection();
+        $this->confirmationQueues = new ArrayCollection();
     }
 
     public function getId(): int
@@ -68,7 +68,7 @@ class Tick
         return $this->id;
     }
 
-    public function getFailSign():? string
+    public function getFailSign(): ?string
     {
         return $this->failSign;
     }
@@ -92,7 +92,7 @@ class Tick
         return $this;
     }
 
-    public function getPrompt():? string
+    public function getPrompt(): ?string
     {
         return $this->prompt;
     }
@@ -116,7 +116,7 @@ class Tick
         return $this;
     }
 
-    public function getEmailConfirmedAt():? \DateTimeInterface
+    public function getEmailConfirmedAt(): ?\DateTimeInterface
     {
         return $this->emailConfirmedAt;
     }
@@ -124,36 +124,6 @@ class Tick
     public function setEmailConfirmedAt(?\DateTimeInterface $emailConfirmedAt): self
     {
         $this->emailConfirmedAt = $emailConfirmedAt;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|TickQueue[]
-     */
-    public function getTickQueues(): Collection
-    {
-        return $this->tickQueues;
-    }
-
-    public function addTickQueue(TickQueue $tickQueue): self
-    {
-        if (!$this->tickQueues->contains($tickQueue)) {
-            $this->tickQueues[] = $tickQueue;
-            $tickQueue->setTick($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTickQueue(TickQueue $tickQueue): self
-    {
-        if ($this->tickQueues->removeElement($tickQueue)) {
-            // set the owning side to null (unless already changed)
-            if ($tickQueue->getTick() === $this) {
-                $tickQueue->setTick(null);
-            }
-        }
 
         return $this;
     }
@@ -166,6 +136,36 @@ class Tick
     public function setUser(User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ConfirmationQueue[]
+     */
+    public function getConfirmationQueues(): Collection
+    {
+        return $this->confirmationQueues;
+    }
+
+    public function addConfirmationQueue(ConfirmationQueue $confirmationQueue): self
+    {
+        if (!$this->confirmationQueues->contains($confirmationQueue)) {
+            $this->confirmationQueues[] = $confirmationQueue;
+            $confirmationQueue->setTick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConfirmationQueue(ConfirmationQueue $confirmationQueue): self
+    {
+        if ($this->confirmationQueues->removeElement($confirmationQueue)) {
+            // set the owning side to null (unless already changed)
+            if ($confirmationQueue->getTick() === $this) {
+                $confirmationQueue->setTick(null);
+            }
+        }
 
         return $this;
     }

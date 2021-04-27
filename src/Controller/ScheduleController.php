@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Schedule;
+use App\Entity\User;
 use App\Event\Event\NewScheduleEvent;
 use App\Form\ScheduleFormType;
 use App\Repository\ScheduleRepository;
@@ -21,19 +22,25 @@ class ScheduleController extends AbstractController
     public function index(ScheduleRepository $scheduleRepository): Response
     {
         $schedules = $scheduleRepository->findByUser($this->getUser());
+
         return $this->render('schedule/index.html.twig', ['schedules' => $schedules]);
     }
 
     /**
      * @Route("/schedule/new", name="schedule_new", methods={"GET","POST"})
      */
-    public function add(Request $request, EntityManagerInterface $manager, EventDispatcherInterface $dispatcher): Response
-    {
+    public function add(
+        Request $request,
+        EntityManagerInterface $manager,
+        EventDispatcherInterface $dispatcher
+    ): Response {
         $schedule = new Schedule();
         $scheduleForm = $this->createForm(ScheduleFormType::class, $schedule);
         $scheduleForm->handleRequest($request);
         if ($scheduleForm->isSubmitted() && $scheduleForm->isValid()) {
-            $schedule->setUser($this->getUser());
+            /** @var User $user */
+            $user = $this->getUser();
+            $schedule->setUser($user)->setTick($user->getTick());
             $manager->persist($schedule);
             $dispatcher->dispatch(new NewScheduleEvent($schedule), NewScheduleEvent::NAME);
             $manager->flush();

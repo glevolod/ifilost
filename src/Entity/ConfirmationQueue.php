@@ -2,20 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\TickQueueRepository;
+use App\Repository\ConfirmationQueueRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * @ORM\Entity(repositoryClass=TickQueueRepository::class)
+ * @ORM\Entity(repositoryClass=ConfirmationQueueRepository::class)
  */
-class TickQueue
+class ConfirmationQueue
 {
     use TimestampableEntity;
 
     const STATUS_NEW = 0;
     const STATUS_SENT = 1;
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -24,20 +23,26 @@ class TickQueue
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Tick::class, inversedBy="tickQueues")
+     * @ORM\ManyToOne(targetEntity=Tick::class, inversedBy="confirmationQueues")
      * @ORM\JoinColumn(nullable=false)
      */
     private $tick;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\ManyToOne(targetEntity=Schedule::class, inversedBy="confirmationQueues")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $startDateTime;
+    private $schedule;
 
     /**
      * @ORM\Column(type="smallint", options={"default": 0})
      */
     private $status = self::STATUS_NEW;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $sendDateTime;
 
     public function getId(): ?int
     {
@@ -56,14 +61,14 @@ class TickQueue
         return $this;
     }
 
-    public function getStartDateTime(): ?\DateTimeInterface
+    public function getSchedule(): ?Schedule
     {
-        return $this->startDateTime;
+        return $this->schedule;
     }
 
-    public function setStartDateTime(\DateTimeInterface $startDateTime): self
+    public function setSchedule(?Schedule $schedule): self
     {
-        $this->startDateTime = $startDateTime;
+        $this->schedule = $schedule;
 
         return $this;
     }
@@ -76,6 +81,18 @@ class TickQueue
     public function setStatus(int $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getSendDateTime(): ?\DateTime
+    {
+        return $this->sendDateTime;
+    }
+
+    public function setSendDateTime(\DateTimeInterface $sendDateTime): self
+    {
+        $this->sendDateTime = $sendDateTime;
 
         return $this;
     }

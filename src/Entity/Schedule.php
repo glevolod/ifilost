@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ScheduleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
@@ -80,15 +82,26 @@ class Schedule
     private $reminderTimeout;
 
     /**
-     * @ORM\OneToOne(targetEntity=Confirmation::class, mappedBy="schedule", cascade={"persist", "remove"})
-     */
-    private $confirmation;
-
-    /**
      * single, periodic, periodic_since
      * @ORM\Column(type="smallint")
      */
     private $type;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Tick::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $tick;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ConfirmationQueue::class, mappedBy="schedule")
+     */
+    private $confirmationQueues;
+
+    public function __construct()
+    {
+        $this->confirmationQueues = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -179,23 +192,6 @@ class Schedule
         return $this;
     }
 
-    public function getConfirmation(): ?Confirmation
-    {
-        return $this->confirmation;
-    }
-
-    public function setConfirmation(Confirmation $confirmation): self
-    {
-        // set the owning side of the relation if necessary
-        if ($confirmation->getSchedule() !== $this) {
-            $confirmation->setSchedule($this);
-        }
-
-        $this->confirmation = $confirmation;
-
-        return $this;
-    }
-
     public function getType(): ?int
     {
         return $this->type;
@@ -204,6 +200,48 @@ class Schedule
     public function setType(int $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getTick(): ?Tick
+    {
+        return $this->tick;
+    }
+
+    public function setTick(?Tick $tick): self
+    {
+        $this->tick = $tick;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ConfirmationQueue[]
+     */
+    public function getConfirmationQueues(): Collection
+    {
+        return $this->confirmationQueues;
+    }
+
+    public function addConfirmationQueue(ConfirmationQueue $confirmationQueue): self
+    {
+        if (!$this->confirmationQueues->contains($confirmationQueue)) {
+            $this->confirmationQueues[] = $confirmationQueue;
+            $confirmationQueue->setSchedule($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConfirmationQueue(ConfirmationQueue $confirmationQueue): self
+    {
+        if ($this->confirmationQueues->removeElement($confirmationQueue)) {
+            // set the owning side to null (unless already changed)
+            if ($confirmationQueue->getSchedule() === $this) {
+                $confirmationQueue->setSchedule(null);
+            }
+        }
 
         return $this;
     }
