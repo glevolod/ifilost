@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Extension\Doctrine\Guidable\GuidableInterface;
+use App\Extension\Doctrine\Guidable\GuidableTrait;
 use App\Repository\ScheduleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,8 +13,9 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 /**
  * @ORM\Entity(repositoryClass=ScheduleRepository::class)
  */
-class Schedule
+class Schedule implements GuidableInterface
 {
+    use GuidableTrait;
     use TimestampableEntity;
 
     const TYPE_SINGLE = 10;

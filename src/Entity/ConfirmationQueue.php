@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Extension\Doctrine\Guidable\GuidableInterface;
+use App\Extension\Doctrine\Guidable\GuidableTrait;
 use App\Repository\ConfirmationQueueRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -9,8 +11,9 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 /**
  * @ORM\Entity(repositoryClass=ConfirmationQueueRepository::class)
  */
-class ConfirmationQueue
+class ConfirmationQueue implements GuidableInterface
 {
+    use GuidableTrait;
     use TimestampableEntity;
 
     const STATUS_NEW = 0;

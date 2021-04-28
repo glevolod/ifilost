@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Extension\Doctrine\Guidable\GuidableInterface;
+use App\Extension\Doctrine\Guidable\GuidableTrait;
 use App\Repository\TickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,8 +13,9 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 /**
  * @ORM\Entity(repositoryClass=TickRepository::class)
  */
-class Tick
+class Tick implements GuidableInterface
 {
+    use GuidableTrait;
     use TimestampableEntity;
 
     /**
