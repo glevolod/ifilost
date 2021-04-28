@@ -47,4 +47,13 @@ class ConfirmationRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findByGuid(string $guid): ?Confirmation
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.guid = :guid')
+            ->setParameter('guid', $guid)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

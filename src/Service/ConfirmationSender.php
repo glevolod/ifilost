@@ -75,8 +75,8 @@ class ConfirmationSender
             //->replyTo('fabien@example.com')
             //->priority(Email::PRIORITY_HIGH)
             ->subject('Time for Symfony Mailer!')
-            ->text('Confirmation ID: '.$confirmation->getId())
-            ->html('<p>Confirmation ID: '.$confirmation->getId().'</p>');
+            ->text('Confirmation: '.$confirmation->getGuid())
+            ->html('<p>Confirmation: '.$confirmation->getGuid().'</p>');
         try {
             $this->mailer->send($email);
         } catch (TransportExceptionInterface $e) {
