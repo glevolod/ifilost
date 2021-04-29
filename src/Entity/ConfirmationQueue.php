@@ -51,6 +51,8 @@ class ConfirmationQueue implements GuidableInterface
         $this->id = null;
         $this->status = self::STATUS_NEW;
         $this->sendDateTime = $this->sendDateTime->modify("+ {$this->schedule->getFrequency()} hours");
+        $this->createdAt = null;
+        $this->updatedAt = null;
     }
 
     public function getId(): ?int
