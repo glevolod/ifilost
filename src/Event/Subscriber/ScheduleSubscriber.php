@@ -32,7 +32,7 @@ class ScheduleSubscriber implements EventSubscriberInterface
         );
         $queue
             ->setSendDateTime($sendDateTime)
-            ->setTick($user->getTick())
+            ->setTick($schedule->getTick())
             ->setSchedule($schedule);
         $this->manager->persist($queue);
     }

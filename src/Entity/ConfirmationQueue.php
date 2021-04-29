@@ -47,6 +47,12 @@ class ConfirmationQueue implements GuidableInterface
      */
     private $sendDateTime;
 
+    public function __clone(){
+        $this->id = null;
+        $this->status = self::STATUS_NEW;
+        $this->sendDateTime = $this->sendDateTime->modify("+ {$this->schedule->getFrequency()} hours");
+    }
+
     public function getId(): ?int
     {
         return $this->id;

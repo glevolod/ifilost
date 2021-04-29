@@ -54,7 +54,7 @@ class ConfirmationSender
         return $sentAmount;
     }
 
-    public function sendConfirmation(ConfirmationQueue $confirmationQueue): bool
+    public function sendConfirmation(ConfirmationQueue $confirmationQueue): void
     {
         $confirmation = new Confirmation();
         $schedule = $confirmationQueue->getSchedule();

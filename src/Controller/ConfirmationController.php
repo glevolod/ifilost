@@ -20,11 +20,14 @@ class ConfirmationController extends AbstractController
         EntityManagerInterface $entityManager
     ): Response {
         $confirmation = $confirmationRepository->findByGuid($guid);
-        if(!$confirmation) {
+        if (!$confirmation) {
             return new Response(null, 404);
         }
         $confirmation->setStatus(Confirmation::STATUS_CONFIRMED);
+        $nextQueue = clone $confirmation->getQueue();
+        $entityManager->persist($nextQueue);
         $entityManager->flush();
+
         return $this->redirectToRoute('index');
     }
 }

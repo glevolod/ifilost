@@ -16,7 +16,7 @@ trait GuidableTrait
      *
      * @ORM\Column(type="guid", unique=true)
      */
-    private $guid;
+    protected $guid;
 
     /**
      * @return string|null
