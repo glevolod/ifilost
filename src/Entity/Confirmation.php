@@ -27,6 +27,8 @@ class Confirmation implements GuidableInterface
 
     const MAX_ATTEMPTS = 3;
 
+    const GAP_TIMEOUT = 2; //minutes
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -113,12 +115,12 @@ class Confirmation implements GuidableInterface
         return $this;
     }
 
-    public function getMaxDateTime(): ?\DateTimeInterface
+    public function getMaxDateTime(): ?\DateTime
     {
         return $this->maxDateTime;
     }
 
-    public function setMaxDateTime(\DateTimeInterface $maxDateTime): self
+    public function setMaxDateTime(\DateTime $maxDateTime): self
     {
         $this->maxDateTime = $maxDateTime;
 

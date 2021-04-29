@@ -52,6 +52,7 @@ class AppMailer
                 [
                     'userName' => $confirmation->getQueue()->getTick()->getUser()->getUsername(),
                     'guid' => $confirmation->getGuid(),
+                    'maxTime' => $confirmation->getMaxDateTime(),
                 ]
             );
         try {

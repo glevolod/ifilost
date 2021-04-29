@@ -23,6 +23,9 @@ class ConfirmationController extends AbstractController
         if (!$confirmation) {
             return new Response(null, 404);
         }
+        if ($confirmation->getMaxDateTime()->modify('+ '.Confirmation::GAP_TIMEOUT.' minutes') > new \DateTime()) {
+            return $this->redirectToRoute('index');
+        }
         $confirmation->setStatus(Confirmation::STATUS_CONFIRMED);
         $nextQueue = clone $confirmation->getQueue();
         $entityManager->persist($nextQueue);

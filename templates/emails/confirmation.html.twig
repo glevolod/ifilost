@@ -2,5 +2,6 @@
     <p>Привет, {{ userName }}!</p>
     <p>Пожалуйста, подтвердите отметку по ссылке <a href="{{ appHost ~ path('confirmation_confirm', {guid: guid}) }}">здесь</a>.
     </p>
+    <p>Крайнее время для отметки: <strong>{{ maxTime|date('Y-m-d H:i') }}</strong></p>
     {{ include('emails/part/footer.html.twig') }}
 {% endapply %}
