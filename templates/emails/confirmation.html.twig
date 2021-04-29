@@ -1,0 +1,6 @@
+{% apply inky_to_html %}
+    <p>Привет, {{ userName }}!</p>
+    <p>Пожалуйста, подтвердите отметку по ссылке <a href="{{ appHost ~ path('confirmation_confirm', {guid: guid}) }}">здесь</a>.
+    </p>
+    {{ include('emails/part/footer.html.twig') }}
+{% endapply %}

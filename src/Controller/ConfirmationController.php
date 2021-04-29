@@ -24,6 +24,7 @@ class ConfirmationController extends AbstractController
             return new Response(null, 404);
         }
         $confirmation->setStatus(Confirmation::STATUS_CONFIRMED);
+        $entityManager->flush();
         return $this->redirectToRoute('index');
     }
 }

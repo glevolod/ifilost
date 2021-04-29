@@ -3,3 +3,6 @@ twig:
     form_themes:
         - 'bootstrap_4_layout.html.twig'
         - 'extensions/form/custom_types.html.twig'
+    globals:
+        appServiceName: '%env(APP_SERVICE_NAME)%'
+        appHost: '%env(APP_HOST)%'
