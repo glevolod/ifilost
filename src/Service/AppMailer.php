@@ -62,4 +62,33 @@ class AppMailer
             throw $e;
         }
     }
+
+    public function sendMissedConfirmationNotifications(Confirmation $confirmation){
+        $user = $confirmation->getQueue()->getSchedule()->getUser();
+        $notifiables = $user->getNotifiables();
+        $emailsAddr = [];
+        foreach ($notifiables as $notifiable) {
+            $emailsAddr[] = $notifiable->getEmail();
+        }
+        $email = (new TemplatedEmail())
+            ->to($emailsAddr)
+//            ->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject('Отметка от '.$this->appServiceName)
+            ->htmlTemplate('emails/notification.html.twig')
+            ->context(
+                [
+                    'userName' => $user->getUsername(),
+                    'maxTime' => $confirmation->getMaxDateTime(),
+                ]
+            );
+        try {
+            $this->mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            $this->logger->error($e->getMessage()."\n".$e->getTraceAsString());
+            throw $e;
+        }
+    }
 }
