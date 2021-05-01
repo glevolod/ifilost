@@ -22,6 +22,7 @@ class ConfirmationController extends AbstractController
             $this->addFlash('warning', 'Сожалеем! Отметка просрочена.');
             //todo: check type and send new reminder confirmation if it wasn't reminder
             $confirmation->setStatus(Confirmation::STATUS_MISSED);
+            $entityManager->flush();
             //todo: send notifications for notifiables
             return $this->redirectToRoute('index');
         }
