@@ -1,0 +1,7 @@
+{% apply inky_to_html %}
+    <p>Привет!</p>
+    <p>Пользователь {{ userName }} не подтвердил отметку в сервисе вовремя (до {{ maxTime|date('Y-m-d H:i') }})
+        <br/>Вы указаны как уведомляемый.
+        <br/>Пожалуйста, поинтересуйтесть что с ним.</p>
+    {{ include('emails/part/footer.html.twig') }}
+{% endapply %}

@@ -49,11 +49,11 @@ class ConfirmationQueueRepository extends ServiceEntityRepository
     */
 
     /**
-     * @param  \DateTimeInterface  $dateTime
+     * @param  \DateTime  $dateTime
      * @param  int|null  $amount
      * @return array|ConfirmationQueue[]
      */
-    public function getPreparedForSend(\DateTimeInterface $dateTime, ?int $amount = null)
+    public function getPreparedForSend(\DateTime $dateTime, ?int $amount = null)
     {
         $queryBuilder = $this->createQueryBuilder('cq')
             ->select('cq, t')

@@ -37,7 +37,7 @@ class ConfirmationSender
     }
 
 
-    public function sendConfirmations(\DateTimeInterface $startDate, ?int $amount = null): int
+    public function sendConfirmations(\DateTime $startDate, ?int $amount = null): int
     {
         $confirmationQueues = $this->confirmationQueueRepository->getPreparedForSend($startDate, $amount);
 

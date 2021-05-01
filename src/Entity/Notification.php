@@ -22,7 +22,7 @@ class Notification implements GuidableInterface
     const TYPE_CONFIRMATION_FAILED = 10;
 
     const STATUS_NEED_SEND = 0;
-    const STATUS_SEND = 1;
+    const STATUS_SENT = 1;
 
     /**
      * @ORM\Id
@@ -77,6 +77,7 @@ class Notification implements GuidableInterface
     public function setTypeConfirmationMissed(): self
     {
         $this->type = self::TYPE_CONFIRMATION_MISSED;
+
         return $this;
     }
 
@@ -100,6 +101,13 @@ class Notification implements GuidableInterface
     public function setStatus(int $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function setStatusSent(): self
+    {
+        $this->status = self::STATUS_SENT;
 
         return $this;
     }

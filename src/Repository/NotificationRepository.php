@@ -47,4 +47,28 @@ class NotificationRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @param  \DateTime  $dateTime
+     * @param  int|null  $amount
+     * @return array|Notification[]
+     */
+    public function getPreparedForSend(?int $amount = null)
+    {
+        $queryBuilder = $this->createQueryBuilder('n')
+            ->select('n,c, nf')
+            ->join('n.confirmation', 'c')
+            ->join('n.notifiables', 'nf')
+            ->andWhere('n.status = :status')
+            ->setParameter('status', Notification::STATUS_NEED_SEND)
+            ->orderBy('n.createdAt', 'ASC');
+        if ($amount) {
+            $queryBuilder->setMaxResults($amount);
+        }
+        $query = $queryBuilder->getQuery();
+        $result = $query->getResult();
+
+        return $result;
+    }
+
 }

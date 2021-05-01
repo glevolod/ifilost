@@ -5,6 +5,7 @@ namespace App\Service;
 
 
 use App\Entity\Confirmation;
+use App\Entity\Notification;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
@@ -63,25 +64,26 @@ class AppMailer
         }
     }
 
-    public function sendMissedConfirmationNotifications(Confirmation $confirmation){
-        $user = $confirmation->getUser();
+    public function sendNotificationMissedConfirmation(Notification $notification)
+    {
+        $user = $notification->getConfirmation()->getUser();
         $notifiables = $user->getNotifiables();
         $emailsAddr = [];
         foreach ($notifiables as $notifiable) {
             $emailsAddr[] = $notifiable->getEmail();
         }
         $email = (new TemplatedEmail())
-            ->to($emailsAddr)
+            ->to(...$emailsAddr)
 //            ->cc('cc@example.com')
             //->bcc('bcc@example.com')
             //->replyTo('fabien@example.com')
             //->priority(Email::PRIORITY_HIGH)
-            ->subject('Отметка от '.$this->appServiceName)
-            ->htmlTemplate('emails/notification.html.twig')
+            ->subject($user->getUsername(). ' через сервис '.$this->appServiceName)
+            ->htmlTemplate('emails/notification_missed_confirmation.html.twig')
             ->context(
                 [
                     'userName' => $user->getUsername(),
-                    'maxTime' => $confirmation->getMaxDateTime(),
+                    'maxTime' => $notification->getConfirmation()->getMaxDateTime(),
                 ]
             );
         try {
