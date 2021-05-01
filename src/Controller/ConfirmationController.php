@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Confirmation;
-use App\Repository\ConfirmationRepository;
+use App\Entity\Schedule;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,15 +16,21 @@ class ConfirmationController extends AbstractController
      */
     public function confirm(
         Confirmation $confirmation,
-        ConfirmationRepository $confirmationRepository,
         EntityManagerInterface $entityManager
     ): Response {
-        if ($confirmation->getMaxDateTime()->modify('+ '.Confirmation::GAP_TIMEOUT.' minutes') > new \DateTime()) {
+        if ($confirmation->getMaxDateTime() < (new \DateTime())->modify('- '.Confirmation::GAP_TIMEOUT.' minutes')) {
+            $this->addFlash('warning', 'Сожалеем! Отметка просрочена.');
+            //todo: check type and send new reminder confirmation if it wasn't reminder
+            $confirmation->setStatus(Confirmation::STATUS_MISSED);
+            //todo: send notifications for notifiables
             return $this->redirectToRoute('index');
         }
+        $this->addFlash('success', 'Спасибо! Отметка получена.');
         $confirmation->setStatus(Confirmation::STATUS_CONFIRMED);
-        $nextQueue = clone $confirmation->getQueue();
-        $entityManager->persist($nextQueue);
+        if ($confirmation->getQueue()->getSchedule()->getType() == Schedule::TYPE_PERIODIC) {
+            $nextQueue = clone $confirmation->getQueue();
+            $entityManager->persist($nextQueue);
+        }
         $entityManager->flush();
 
         return $this->redirectToRoute('index');

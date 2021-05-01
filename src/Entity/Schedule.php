@@ -18,16 +18,14 @@ class Schedule implements GuidableInterface
     use GuidableTrait;
     use TimestampableEntity;
 
-    const TYPE_SINGLE = 10;
+//    const TYPE_SINGLE = 10;
     const TYPE_PERIODIC = 20;
-    const TYPE_PERIODIC_SINCE = 30;
 
     public static function getTypes(): array
     {
         return [
-            self::TYPE_SINGLE => 'single',
+//            self::TYPE_SINGLE => 'single',
             self::TYPE_PERIODIC => 'periodic',
-            self::TYPE_PERIODIC_SINCE => 'periodic since',
         ];
     }
 
