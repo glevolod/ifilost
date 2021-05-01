@@ -68,29 +68,29 @@ class AppMailer
     {
         $user = $notification->getConfirmation()->getUser();
         $notifiables = $user->getNotifiables();
-        $emailsAddr = [];
         foreach ($notifiables as $notifiable) {
-            $emailsAddr[] = $notifiable->getEmail();
-        }
-        $email = (new TemplatedEmail())
-            ->to(...$emailsAddr)
+            $email = (new TemplatedEmail())
+                ->to($notifiable->getEmail())
 //            ->cc('cc@example.com')
-            //->bcc('bcc@example.com')
-            //->replyTo('fabien@example.com')
-            //->priority(Email::PRIORITY_HIGH)
-            ->subject($user->getUsername(). ' через сервис '.$this->appServiceName)
-            ->htmlTemplate('emails/notification_missed_confirmation.html.twig')
-            ->context(
-                [
-                    'userName' => $user->getUsername(),
-                    'maxTime' => $notification->getConfirmation()->getMaxDateTime(),
-                ]
-            );
-        try {
-            $this->mailer->send($email);
-        } catch (TransportExceptionInterface $e) {
-            $this->logger->error($e->getMessage()."\n".$e->getTraceAsString());
-            throw $e;
+                //->bcc('bcc@example.com')
+                //->replyTo('fabien@example.com')
+                //->priority(Email::PRIORITY_HIGH)
+                ->subject($user->getUsername().' через сервис '.$this->appServiceName)
+                ->htmlTemplate('emails/notification_missed_confirmation.html.twig')
+                ->context(
+                    [
+                        'userName' => $user->getUsername(),
+                        'maxTime' => $notification->getConfirmation()->getMaxDateTime(),
+                        'customText' => $notifiable->getText(),
+                    ]
+                );
+            try {
+                $this->mailer->send($email);
+            } catch (TransportExceptionInterface $e) {
+                $this->logger->error($e->getMessage()."\n".$e->getTraceAsString());
+                throw $e;
+            }
+
         }
     }
 }
