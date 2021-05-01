@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Notifiable;
 use App\Entity\Schedule;
+use App\Entity\User;
 use App\Form\NotifiableType;
 use App\Repository\NotifiableRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,10 +20,12 @@ class NotifiableController extends AbstractController
     /**
      * @Route("/", name="notifiable_index", methods={"GET"})
      */
-    public function index(NotifiableRepository $notifiableRepository): Response
+    public function index(): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
         return $this->render('notifiable/index.html.twig', [
-            'notifiables' => $notifiableRepository->findAll(),
+            'notifiables' => $user->getNotifiables(),
         ]);
     }
 

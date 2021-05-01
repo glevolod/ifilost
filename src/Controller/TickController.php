@@ -6,6 +6,7 @@ use App\Entity\Tick;
 use App\Entity\User;
 use App\Form\TickType;
 use App\Repository\TickRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,12 +18,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class TickController extends AbstractController
 {
     /**
-     * @Route("/", name="tick_index", methods={"GET"})
+     * @Route("", name="tick_index", methods={"GET"})
      */
-    public function index(TickRepository $tickRepository): Response
+    public function index(): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
         return $this->render('tick/index.html.twig', [
-            'ticks' => $tickRepository->findAll(),
+            'tick' => $user->getTick(),
         ]);
     }
 
