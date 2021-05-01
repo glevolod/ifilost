@@ -50,7 +50,7 @@ class AppMailer
             ->htmlTemplate('emails/confirmation.html.twig')
             ->context(
                 [
-                    'userName' => $confirmation->getQueue()->getTick()->getUser()->getUsername(),
+                    'userName' => $confirmation->getUser()->getUsername(),
                     'guid' => $confirmation->getGuid(),
                     'maxTime' => $confirmation->getMaxDateTime(),
                 ]
@@ -64,7 +64,7 @@ class AppMailer
     }
 
     public function sendMissedConfirmationNotifications(Confirmation $confirmation){
-        $user = $confirmation->getQueue()->getSchedule()->getUser();
+        $user = $confirmation->getUser();
         $notifiables = $user->getNotifiables();
         $emailsAddr = [];
         foreach ($notifiables as $notifiable) {

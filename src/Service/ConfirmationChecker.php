@@ -5,6 +5,7 @@ namespace App\Service;
 
 
 use App\Entity\Confirmation;
+use App\Entity\Notification;
 use App\Repository\ConfirmationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -36,13 +37,18 @@ class ConfirmationChecker
     }
 
 
-    public function checkConfirmations(\DateTimeInterface $date, ?int $amount = null): int
+    public function checkConfirmations(\DateTime $date, ?int $amount = null): int
     {
         $confirmations = $this->confirmationRepository->getMissed($date, $amount);
 
         $missedAmount = count($confirmations);
         foreach ($confirmations as $confirmation) {
             $confirmation->setStatus(Confirmation::STATUS_MISSED);
+            $notification = (new Notification())
+                ->setConfirmation($confirmation)
+                ->setTypeConfirmationMissed()
+                ->addNotifiables($confirmation->getUser()->getNotifiables());
+            $this->entityManager->persist($notification);
         }
         $this->entityManager->flush();
 

@@ -64,7 +64,8 @@ class ConfirmationSender
             ->setQueue($confirmationQueue)
             ->setType(Confirmation::TYPE_FIRST_CONFIRMATION)
             ->setStatus(Confirmation::STATUS_WAITING)
-            ->setMaxDateTime($maxDateTime);
+            ->setMaxDateTime($maxDateTime)
+            ->setUser($schedule->getUser());
         $confirmationQueue->setStatus(ConfirmationQueue::STATUS_SENT);
         $this->entityManager->persist($confirmation);
         $this->appMailer->sendConfirmation($confirmation);

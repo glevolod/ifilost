@@ -62,6 +62,17 @@ class Confirmation implements GuidableInterface
      */
     private $maxDateTime;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Notification::class, mappedBy="confirmation", cascade={"persist", "remove"})
+     */
+    private $notification;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -123,6 +134,35 @@ class Confirmation implements GuidableInterface
     public function setMaxDateTime(\DateTime $maxDateTime): self
     {
         $this->maxDateTime = $maxDateTime;
+
+        return $this;
+    }
+
+    public function getNotification(): ?Notification
+    {
+        return $this->notification;
+    }
+
+    public function setNotification(Notification $notification): self
+    {
+        // set the owning side of the relation if necessary
+        if ($notification->getConfirmation() !== $this) {
+            $notification->setConfirmation($this);
+        }
+
+        $this->notification = $notification;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
