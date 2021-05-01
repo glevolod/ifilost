@@ -11,7 +11,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ConfirmationSendCommand extends Command
 {
     protected static $defaultName = 'app:confirmation:send';
-    protected static $defaultDescription = 'Command for sending emails for confirmation';
+    protected static $defaultDescription = 'Worker for sending emails for confirmation';
 
     private ConfirmationSender $confirmationSender;
 

@@ -56,4 +56,27 @@ class ConfirmationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    /**
+     * @param  \DateTime  $dateTime
+     * @param  int|null  $amount
+     * @return array|Confirmation[]
+     */
+    public function getMissed(\DateTime $dateTime, ?int $amount = null)
+    {
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->select('c')
+            ->where('c.maxDateTime < :dateTime')
+            ->andWhere('c.status = :status')
+            ->setParameter('dateTime', $dateTime)
+            ->setParameter('status', Confirmation::STATUS_WAITING)
+            ->orderBy('c.maxDateTime', 'ASC');
+        if ($amount) {
+            $queryBuilder->setMaxResults($amount);
+        }
+        $query = $queryBuilder->getQuery();
+        $result = $query->getResult();
+
+        return $result;
+    }
 }

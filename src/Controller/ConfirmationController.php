@@ -20,10 +20,6 @@ class ConfirmationController extends AbstractController
     ): Response {
         if ($confirmation->getMaxDateTime() < (new \DateTime())->modify('- '.Confirmation::GAP_TIMEOUT.' minutes')) {
             $this->addFlash('warning', 'Сожалеем! Отметка просрочена.');
-            //todo: check type and send new reminder confirmation if it wasn't reminder
-            $confirmation->setStatus(Confirmation::STATUS_MISSED);
-            $entityManager->flush();
-            //todo: send notifications for notifiables
             return $this->redirectToRoute('index');
         }
         $this->addFlash('success', 'Спасибо! Отметка получена.');
