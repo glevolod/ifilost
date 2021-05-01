@@ -15,14 +15,10 @@ class ConfirmationController extends AbstractController
      * @Route("/confirm/{guid}", name="confirmation_confirm")
      */
     public function confirm(
-        string $guid,
+        Confirmation $confirmation,
         ConfirmationRepository $confirmationRepository,
         EntityManagerInterface $entityManager
     ): Response {
-        $confirmation = $confirmationRepository->findByGuid($guid);
-        if (!$confirmation) {
-            return new Response(null, 404);
-        }
         if ($confirmation->getMaxDateTime()->modify('+ '.Confirmation::GAP_TIMEOUT.' minutes') > new \DateTime()) {
             return $this->redirectToRoute('index');
         }
