@@ -28,13 +28,13 @@ class ScheduleFormType extends AbstractType implements DataTransformerInterface
                     'label' => 'Frequency (h)',
                 ]
             )
-            ->add(
-                'exceptions',
-                null,
-                [
-                    'label' => 'Exceptions (week days)',
-                ]
-            )
+//            ->add(
+//                'exceptions',
+//                null,
+//                [
+//                    'label' => 'Exceptions (week days)',
+//                ]
+//            )
             ->add(
                 'timeout',
                 NumberType::class,
@@ -42,13 +42,13 @@ class ScheduleFormType extends AbstractType implements DataTransformerInterface
                     'label' => 'Timeout (m)',
                 ]
             )
-            ->add(
-                'reminderTimeout',
-                NumberType::class,
-                [
-                    'label' => 'Reminder timeout (m)',
-                ]
-            )
+//            ->add(
+//                'reminderTimeout',
+//                NumberType::class,
+//                [
+//                    'label' => 'Reminder timeout (m)',
+//                ]
+//            )
             ->add(
                 'type',
                 ChoiceType::class,
@@ -61,7 +61,7 @@ class ScheduleFormType extends AbstractType implements DataTransformerInterface
             )
             ->add('save', SubmitType::class);
 
-        $builder->get('exceptions')->addModelTransformer($this);
+//        $builder->get('exceptions')->addModelTransformer($this);
     }
 
     public function configureOptions(OptionsResolver $resolver)
