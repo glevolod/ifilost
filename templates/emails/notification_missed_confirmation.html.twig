@@ -3,10 +3,9 @@
     <p>Пользователь {{ userName }} не подтвердил отметку в сервисе вовремя (до {{ maxTime|date('Y-m-d H:i') }})
         <br/>Вы указаны как уведомляемый.
         <br/>Пожалуйста, поинтересуйтесть что с ним.</p>
-    <br/>
     <p>Послание от пользователя:
         <hr/>
-    {{ 'customText' }}
+    {{ customText }}
     </p>
     {{ include('emails/part/footer.html.twig') }}
 {% endapply %}
