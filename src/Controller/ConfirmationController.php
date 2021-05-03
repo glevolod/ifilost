@@ -20,12 +20,18 @@ class ConfirmationController extends AbstractController
     ): Response {
         if ($confirmation->getMaxDateTime() < (new \DateTime())->modify('- '.Confirmation::GAP_TIMEOUT.' minutes')) {
             $this->addFlash('warning', 'Сожалеем! Отметка просрочена.');
+
             return $this->redirectToRoute('index');
         }
         $this->addFlash('success', 'Спасибо! Отметка получена.');
         $confirmation->setStatus(Confirmation::STATUS_CONFIRMED);
-        if ($confirmation->getQueue()->getSchedule()->getType() == Schedule::TYPE_PERIODIC) {
+        $schedule = $confirmation->getQueue()->getSchedule();
+        if ($schedule->getType() == Schedule::TYPE_PERIODIC && $schedule->getStatus() == Schedule::STATUS_ACTIVE) {
             $nextQueue = clone $confirmation->getQueue();
+            $this->addFlash(
+                'success',
+                'Время следующей отметки: <strong>'.$nextQueue->getSendDateTime()->format('Y-m-d H:i').'</strong>'
+            );
             $entityManager->persist($nextQueue);
         }
         $entityManager->flush();

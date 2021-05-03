@@ -5,34 +5,43 @@
         <a class="btn btn-outline-success btn-sm" href="{{ url('schedule_new') }}" role="button">Add</a>
     </div>
     <div class="row">
-        <table class="table">
+        <table class="table table-bordered">
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Starting date</th>
-                <th scope="col">Time</th>
+                <th scope="col">Date</th>
                 <th scope="col">Frequency</th>
-                <th scope="col">Exceptions</th>
                 <th scope="col">Timeout</th>
-                <th scope="col">Reminder timeout</th>
                 <th scope="col">Notifiables</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
             {% for schedule in schedules %}
-            <tr>
-                <th scope="row">{{ loop.index }}</th>
-                <td>{{ schedule.date|date('Y-m-d') }}</td>
-                <td>{{ schedule.time|date('H:i') }}</td>
-                <td>{{ schedule.frequency }}</td>
-                <td>{{ schedule.exceptions|json_encode }}</td>
-                <td>{{ schedule.timeout }}</td>
-                <td>{{ schedule.reminderTimeout }}</td>
-                <td></td>
-            </tr>
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ schedule.date|date('Y-m-d') }} {{ schedule.time|date('H:i') }}</td>
+                    <td>{{ schedule.frequency }}</td>
+                    <td>{{ schedule.timeout }}</td>
+                    <td>{{ schedule.user.notifiables|join(', ') }}</td>
+                    <td>{% if schedule.status == constant('App\\Entity\\Schedule::STATUS_ACTIVE') %}
+                            <span class="badge badge-success">активно</span>
+                        {% elseif schedule.status == constant('App\\Entity\\Schedule::STATUS_FINISHED') %}
+                            <span class="badge badge-primary">завершено</span>
+                        {% elseif schedule.status == constant('App\\Entity\\Schedule::STATUS_STOPPED') %}
+                            <span class="badge badge-secondary">остановлено</span>
+                        {% elseif schedule.status == constant('App\\Entity\\Schedule::STATUS_MISSED') %}
+                            <span class="badge badge-danger">пропущено</span>
+                        {% else %}
+                            <span class="badge badge-dark">неивестно</span>
+                        {% endif %}
+                    </td>
+                    <th scope="col">TODO: Actions</th>
+                </tr>
             {% else %}
                 <tr>
-                    <td colspan="8">No data</td>
+                    <td colspan="6">No data</td>
                 </tr>
             {% endfor %}
             </tbody>

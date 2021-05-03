@@ -43,6 +43,11 @@ class Notifiable implements GuidableInterface
      */
     private $text;
 
+    public function __toString(): string
+    {
+        return $this->email;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

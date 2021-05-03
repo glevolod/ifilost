@@ -21,6 +21,11 @@ class Schedule implements GuidableInterface
 //    const TYPE_SINGLE = 10;
     const TYPE_PERIODIC = 20;
 
+    const STATUS_ACTIVE = 0;
+    const STATUS_FINISHED = 10;
+    const STATUS_STOPPED = 20;
+    const STATUS_MISSED = 30;
+
     public static function getTypes(): array
     {
         return [
@@ -98,6 +103,11 @@ class Schedule implements GuidableInterface
      * @ORM\OneToMany(targetEntity=ConfirmationQueue::class, mappedBy="schedule")
      */
     private $confirmationQueues;
+
+    /**
+     * @ORM\Column(type="smallint", options={"default":0})
+     */
+    private $status = self::STATUS_ACTIVE;
 
     public function __construct()
     {
@@ -243,6 +253,18 @@ class Schedule implements GuidableInterface
                 $confirmationQueue->setSchedule(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

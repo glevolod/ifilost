@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Entity\Confirmation;
 use App\Entity\Notification;
+use App\Entity\Schedule;
 use App\Repository\ConfirmationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -48,6 +49,7 @@ class ConfirmationChecker
                 ->setConfirmation($confirmation)
                 ->setTypeConfirmationMissed()
                 ->addNotifiables($confirmation->getUser()->getNotifiables());
+            $confirmation->getQueue()->getSchedule()->setStatus(Schedule::STATUS_MISSED);
             $this->entityManager->persist($notification);
         }
         $this->entityManager->flush();
