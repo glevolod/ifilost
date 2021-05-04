@@ -90,6 +90,10 @@ class Confirmation implements GuidableInterface
         return $this;
     }
 
+    public function increaseAttempts(){
+        $this->attempts++;
+    }
+
     public function getStatus(): ?int
     {
         return $this->status;

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ app.request.attributes.get('_controller') }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="offset-md-5 col-md-2">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button class="btn-primary btn" type="submit">{{ button_label|default('Подтвердить') }}</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
