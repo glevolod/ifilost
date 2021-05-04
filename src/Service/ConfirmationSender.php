@@ -47,7 +47,7 @@ class ConfirmationSender
                 $this->sendConfirmation($confirmationQueue);
                 $sentAmount++;
             } catch (\Throwable $e) {
-                $this->logger->error("Failed ConfirmationQueue: ".$confirmationQueue->getGuid());
+                $this->logger->error("Failed Confirmation sent: ".$confirmationQueue->getGuid());
             }
         }
 

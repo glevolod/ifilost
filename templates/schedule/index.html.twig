@@ -29,10 +29,10 @@
                             <span class="badge badge-success">активно</span>
                         {% elseif schedule.status == constant('App\\Entity\\Schedule::STATUS_FINISHED') %}
                             <span class="badge badge-primary">завершено</span>
-                        {% elseif schedule.status == constant('App\\Entity\\Schedule::STATUS_STOPPED') %}
+                        {% elseif schedule.status == constant('App\\Entity\\Schedule::STATUS_STOPPED_BY_USER') %}
                             <span class="badge badge-secondary">остановлено</span>
-                        {% elseif schedule.status == constant('App\\Entity\\Schedule::STATUS_MISSED') %}
-                            <span class="badge badge-danger">пропущено</span>
+                        {% elseif schedule.status == constant('App\\Entity\\Schedule::STATUS_STOPPED_BY_SYSTEM') %}
+                            <span class="badge badge-danger">прервано</span>
                         {% else %}
                             <span class="badge badge-dark">неивестно</span>
                         {% endif %}

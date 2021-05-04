@@ -64,7 +64,7 @@ class AppMailer
         }
     }
 
-    public function sendNotificationMissedConfirmation(Notification $notification)
+    public function sendNotificationFailedConfirmation(Notification $notification)
     {
         $user = $notification->getConfirmation()->getUser();
         $notifiables = $user->getNotifiables();
@@ -76,7 +76,7 @@ class AppMailer
                 //->replyTo('fabien@example.com')
                 //->priority(Email::PRIORITY_HIGH)
                 ->subject($user->getUsername().' через сервис '.$this->appServiceName)
-                ->htmlTemplate('emails/notification_missed_confirmation.html.twig')
+                ->htmlTemplate('emails/notification_failed_confirmation.html.twig')
                 ->context(
                     [
                         'userName' => $user->getUsername(),

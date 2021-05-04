@@ -38,22 +38,33 @@ class ConfirmationChecker
     }
 
 
-    public function checkConfirmations(\DateTime $date, ?int $amount = null): int
+    public function markMissedConfirmations(\DateTime $date, ?int $amount = null): int
     {
-        $confirmations = $this->confirmationRepository->getMissed($date, $amount);
+        $confirmations = $this->confirmationRepository->getMissedByTime($date, $amount);
 
         $missedAmount = count($confirmations);
         foreach ($confirmations as $confirmation) {
             $confirmation->setStatus(Confirmation::STATUS_MISSED);
-            $notification = (new Notification())
-                ->setConfirmation($confirmation)
-                ->setTypeConfirmationMissed()
-                ->addNotifiables($confirmation->getUser()->getNotifiables());
-            $confirmation->getQueue()->getSchedule()->setStatus(Schedule::STATUS_MISSED);
-            $this->entityManager->persist($notification);
         }
         $this->entityManager->flush();
 
         return $missedAmount;
+    }
+
+    public function manageFailedConfirmation(?int $amount = null)
+    {
+        $confirmations = $this->confirmationRepository->getFailedNotNotified($amount);
+        $failedAmount = count($confirmations);
+        foreach ($confirmations as $confirmation) {
+            $notification = (new Notification())
+                ->setConfirmation($confirmation)
+                ->setTypeConfirmationFailed()
+                ->addNotifiables($confirmation->getUser()->getNotifiables());
+            $confirmation->getQueue()->getSchedule()->setStatus(Schedule::STATUS_STOPPED_BY_SYSTEM);
+            $this->entityManager->persist($notification);
+        }
+        $this->entityManager->flush();
+
+        return $failedAmount;
     }
 }

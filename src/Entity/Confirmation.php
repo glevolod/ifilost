@@ -17,10 +17,10 @@ class Confirmation implements GuidableInterface
     use TimestampableEntity;
 
     const STATUS_WAITING = 0;
-    const STATUS_CONFIRMED = 1;
-    const STATUS_MISSED = 2;
-    const STATUS_ATTEMPTS_EXCEEDED = 3;
-    const STATUS_FAIL_CONFIRMED = 4;
+    const STATUS_CONFIRMED = 10;
+    const STATUS_MISSED = 20;
+    const STATUS_ATTEMPTS_EXCEEDED = 30;
+    const STATUS_FAIL_CONFIRMED = 40;
 
     const TYPE_FIRST_CONFIRMATION = 0;
     const TYPE_REMINDER_CONFIRMATION = 1;
@@ -72,6 +72,11 @@ class Confirmation implements GuidableInterface
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default": 0})
+     */
+    private $isNotified = false;
 
     public function getId(): ?int
     {
@@ -167,6 +172,18 @@ class Confirmation implements GuidableInterface
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getIsNotified(): ?bool
+    {
+        return $this->isNotified;
+    }
+
+    public function setIsNotified(bool $isNotified): self
+    {
+        $this->isNotified = $isNotified;
 
         return $this;
     }

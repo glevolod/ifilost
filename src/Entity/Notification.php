@@ -18,7 +18,8 @@ class Notification implements GuidableInterface
     use GuidableTrait;
     use TimestampableEntity;
 
-    const TYPE_CONFIRMATION_MISSED = 0;
+    //mb not needed TYPE_*
+    const TYPE_CUSTOM = 0;
     const TYPE_CONFIRMATION_FAILED = 10;
 
     const STATUS_NEED_SEND = 0;
@@ -74,9 +75,9 @@ class Notification implements GuidableInterface
         return $this;
     }
 
-    public function setTypeConfirmationMissed(): self
+    public function setTypeConfirmationFailed(): self
     {
-        $this->type = self::TYPE_CONFIRMATION_MISSED;
+        $this->type = self::TYPE_CONFIRMATION_FAILED;
 
         return $this;
     }

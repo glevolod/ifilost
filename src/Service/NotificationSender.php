@@ -47,7 +47,7 @@ class NotificationSender
                 $notification->setStatusSent();
                 $sentAmount++;
             } catch (\Throwable $e) {
-                $this->logger->error("Failed ConfirmationQueue: ".$notification->getGuid());
+                $this->logger->error("Failed Notification sent: ".$notification->getGuid());
             }
         }
         $this->entityManager->flush();
@@ -57,6 +57,6 @@ class NotificationSender
 
     public function sendNotification(Notification $notification): void
     {
-        $this->appMailer->sendNotificationMissedConfirmation($notification);
+        $this->appMailer->sendNotificationFailedConfirmation($notification);
     }
 }

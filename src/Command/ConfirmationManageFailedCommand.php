@@ -2,22 +2,21 @@
 
 namespace App\Command;
 
-use App\Entity\Confirmation;
 use App\Service\ConfirmationChecker;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class ConfirmationMarkMissedCommand extends Command
+class ConfirmationManageFailedCommand extends Command
 {
-    protected static $defaultName = 'app:confirmation:mark-missed';
-    protected static $defaultDescription = 'Worker for marking confirmations as missed';
+    protected static $defaultName = 'app:confirmation:manage-failed';
+    protected static $defaultDescription = 'Worker for managing failed confirmations (create notifications)';
 
     private ConfirmationChecker $confirmationChecker;
 
     /**
-     * ConfirmationMarkMissedCommand constructor.
+     * ConfirmationManageFailedCommand constructor.
      * @param  ConfirmationChecker  $confirmationChecker
      */
     public function __construct(ConfirmationChecker $confirmationChecker)
@@ -38,9 +37,9 @@ class ConfirmationMarkMissedCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         do {
-            $date = (new \DateTime())->modify('-'.Confirmation::GAP_TIMEOUT.' minutes');
-            $missedAmount = $this->confirmationChecker->markMissedConfirmations($date);
-            $io->success("amount of missed confirmation on {$date->format('Y-m-d H:i:s')} : $missedAmount");
+            $date = new \DateTime();
+            $failedAmount = $this->confirmationChecker->manageFailedConfirmation();
+            $io->success("amount of failed confirmation on {$date->format('Y-m-d H:i:s')} : $failedAmount");
             sleep(40);
         } while (true);//todo: ability to stop gracefully
 

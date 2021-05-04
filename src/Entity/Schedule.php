@@ -23,8 +23,8 @@ class Schedule implements GuidableInterface
 
     const STATUS_ACTIVE = 0;
     const STATUS_FINISHED = 10;
-    const STATUS_STOPPED = 20;
-    const STATUS_MISSED = 30;
+    const STATUS_STOPPED_BY_USER = 20;
+    const STATUS_STOPPED_BY_SYSTEM = 30;
 
     public static function getTypes(): array
     {

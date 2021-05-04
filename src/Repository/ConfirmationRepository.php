@@ -62,7 +62,7 @@ class ConfirmationRepository extends ServiceEntityRepository
      * @param  int|null  $amount
      * @return array|Confirmation[]
      */
-    public function getMissed(\DateTime $dateTime, ?int $amount = null)
+    public function getMissedByTime(\DateTime $dateTime, ?int $amount = null)
     {
         $queryBuilder = $this->createQueryBuilder('c')
             ->select('c')
@@ -79,4 +79,26 @@ class ConfirmationRepository extends ServiceEntityRepository
 
         return $result;
     }
+
+    /**
+     * @param  int|null  $amount
+     * @return array|Confirmation[]
+     */
+    public function getFailedNotNotified(?int $amount = null)
+    {
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->select('c')
+            ->where('c.status > :status')
+            ->setParameter('status', Confirmation::STATUS_WAITING)
+            ->andWhere('c.isNotified = 0')
+            ->orderBy('c.maxDateTime', 'ASC');
+        if ($amount) {
+            $queryBuilder->setMaxResults($amount);
+        }
+        $query = $queryBuilder->getQuery();
+        $result = $query->getResult();
+
+        return $result;
+    }
+
 }
