@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Schedule;
 use App\Entity\User;
 use App\Event\Event\NewScheduleEvent;
+use App\Event\Event\UpdateScheduleEvent;
 use App\Form\ScheduleFormType;
 use App\Repository\ScheduleRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ScheduleController extends AbstractController
 {
     /**
-     * @Route("/schedule", name="schedule")
+     * @Route("/schedule", name="schedule_index")
      */
     public function index(ScheduleRepository $scheduleRepository): Response
     {
@@ -45,7 +46,29 @@ class ScheduleController extends AbstractController
             $dispatcher->dispatch(new NewScheduleEvent($schedule), NewScheduleEvent::NAME);
             $manager->flush();
 
-            return $this->redirectToRoute('schedule');
+            return $this->redirectToRoute('schedule_index');
+        }
+
+        return $this->render('schedule/add.html.twig', ['form' => $scheduleForm->createView()]);
+    }
+
+    /**
+     * @Route("/schedule/update/{guid}", name="schedule_update", methods={"GET","POST"})
+     */
+    public function update(
+        Request $request,
+        Schedule $schedule,
+        EntityManagerInterface $manager,
+        EventDispatcherInterface $dispatcher
+    ): Response {
+        $scheduleForm = $this->createForm(ScheduleFormType::class, $schedule);
+        $scheduleForm->handleRequest($request);
+        if ($scheduleForm->isSubmitted() && $scheduleForm->isValid()) {
+            /** @var User $user */
+            $dispatcher->dispatch(new UpdateScheduleEvent($schedule), UpdateScheduleEvent::NAME);
+            $manager->flush();
+
+            return $this->redirectToRoute('schedule_index');
         }
 
         return $this->render('schedule/add.html.twig', ['form' => $scheduleForm->createView()]);

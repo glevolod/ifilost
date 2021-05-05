@@ -37,7 +37,7 @@
                             <span class="badge badge-dark">неивестно</span>
                         {% endif %}
                     </td>
-                    <th scope="col">TODO: Actions</th>
+                    <th scope="col"><a class="btn btn-outline-success btn-sm" href="{{ url('schedule_update', {'guid': schedule.guid}) }}" role="button">Update</a></th>
                 </tr>
             {% else %}
                 <tr>

@@ -71,4 +71,20 @@ class ConfirmationQueueRepository extends ServiceEntityRepository
 
         return $result;
     }
+
+    public function getByScheduleId(int $scheduleId, ?int $status = null)
+    {
+        $queryBuilder = $this->createQueryBuilder('cq')
+            ->select('cq')
+            ->where('cq.schedule = :schedule')
+            ->setParameter('schedule', $scheduleId);
+        if (null !== $status) {
+            $queryBuilder->andWhere('cq.status = :status')
+                ->setParameter('status', $status);
+        }
+        $query = $queryBuilder->getQuery();
+        $result = $query->getResult();
+
+        return $result;
+    }
 }
