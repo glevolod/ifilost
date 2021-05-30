@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a0a630ffbe3998746cbd3137bcb5dc23",
+    "content-hash": "42d8c22bc6ba51fc6a95fa8c830aeb67",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -1836,6 +1836,65 @@
                 "source": "https://github.com/lorenzo/pinky/tree/1.0.5"
             },
             "time": "2019-09-16T21:23:31+00:00"
+        },
+        {
+            "name": "mluex/gravatar-bundle",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mluex/gravatar-bundle.git",
+                "reference": "67d3ad70a4c0296bec33a24a50f8cabc74dd0feb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mluex/gravatar-bundle/zipball/67d3ad70a4c0296bec33a24a50f8cabc74dd0feb",
+                "reference": "67d3ad70a4c0296bec33a24a50f8cabc74dd0feb",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1",
+                "symfony/framework-bundle": "^5.0| ^4.3",
+                "symfony/templating": "^5.0| ^4.3",
+                "symfony/twig-bundle": "^5.0| ^4.3"
+            },
+            "conflict": {
+                "ornicar/gravatar-bundle": ">=1.0.0",
+                "twig/twig": "<1.12"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Mluex\\GravatarBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thibault Duplessis",
+                    "email": "thibault.duplessis@gmail.com"
+                },
+                {
+                    "name": "Henrik Bjørnskov",
+                    "email": "henrik@bjrnskov.dk"
+                },
+                {
+                    "name": "Marius Luexmann",
+                    "email": "m.luexmann@gmail.com"
+                }
+            ],
+            "description": "Simple wrapper to gravatar API for Symfony 5 - Forked from ornicar/gravatar-bundle",
+            "keywords": [
+                "gravatar",
+                "symfony5",
+                "twig"
+            ],
+            "support": {
+                "source": "https://github.com/mluex/gravatar-bundle/tree/master"
+            },
+            "time": "2020-03-21T21:34:42+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -6566,6 +6625,74 @@
                 }
             ],
             "time": "2021-02-16T10:20:28+00:00"
+        },
+        {
+            "name": "symfony/templating",
+            "version": "v5.2.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/templating.git",
+                "reference": "954c01bae6689423a83b6c9025f83bb93d38d9b2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/templating/zipball/954c01bae6689423a83b6c9025f83bb93d38d9b2",
+                "reference": "954c01bae6689423a83b6c9025f83bb93d38d9b2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "symfony/polyfill-ctype": "~1.8"
+            },
+            "require-dev": {
+                "psr/log": "~1.0"
+            },
+            "suggest": {
+                "psr/log-implementation": "For using debug logging in loaders"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Templating\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides all the tools needed to build any kind of template system",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/templating/tree/v5.2.4"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-01-27T10:01:46+00:00"
         },
         {
             "name": "symfony/translation",
