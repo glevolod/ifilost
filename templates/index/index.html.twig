@@ -1,7 +1,26 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_minimal.html.twig' %}
 
 {% block title %}Hello IndexController!{% endblock %}
 
 {% block body %}
-  {{ parent() }}
+  <div class="pt-5">
+    <h1 class="text-center">Как работает сервис?</h1>
+    <ol class="list-group">
+      <li class="list-group-item">войдите или зарегистрируйтесь</li>
+      <li class="list-group-item">добавьте параметры отметки в сервисе (пин-код или без него), подтверждающие
+        подлинность отметки
+      </li>
+      <li class="list-group-item">добавьте email адреса уведомляемых друзей, если ваша отметка не будет
+        подтверждена
+      </li>
+      <li class="list-group-item">создайте расписание, когда вам будут приходить уведомления с просьбой
+        подтвердить отметку
+      </li>
+    </ol>
+    <p class="text-center">
+      <a href="{{ path('app_register') }}" class="btn btn-primary my-2 w-25">Регистрация</a>
+      <a href="{{ path('app_login') }}" class="btn btn-success my-2 w-25">Вход</a>
+    </p>
+
+  </div>
 {% endblock %}

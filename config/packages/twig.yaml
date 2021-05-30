@@ -6,3 +6,4 @@ twig:
     globals:
         appServiceName: '%env(APP_SERVICE_NAME)%'
         appHost: '%env(APP_HOST)%'
+        appMailAdmin: '%env(MAIL_ADMIN)%'

@@ -12,8 +12,15 @@ class IndexController extends AbstractController
      */
     public function index()
     {
-        return $this->render('index/index.html.twig', [
-            'controller_name' => 'IndexController',
-        ]);
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('schedule_index');
+        }
+
+        return $this->render(
+            'index/index.html.twig',
+            [
+                'controller_name' => 'IndexController',
+            ]
+        );
     }
 }
