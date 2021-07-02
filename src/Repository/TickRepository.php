@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Tick;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,4 +48,19 @@ class TickRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @return Tick|null
+     */
+    public function findOneByUser(User $user): ?Tick
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('t.id', 'DESC')
+            ->getQuery()
+            ->setMaxResults(1)
+            ->getOneOrNullResult()
+            ;
+    }
 }

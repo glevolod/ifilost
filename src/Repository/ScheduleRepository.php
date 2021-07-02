@@ -23,7 +23,7 @@ class ScheduleRepository extends ServiceEntityRepository
      /**
       * @return Schedule[] Returns an array of Schedule objects
       */
-    public function findByUser(User $user)
+    public function allByUser(User $user)
     {
         return $this->createQueryBuilder('s')
             ->andWhere('s.user = :user')

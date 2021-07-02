@@ -22,7 +22,7 @@ class ScheduleController extends AbstractController
      */
     public function index(ScheduleRepository $scheduleRepository): Response
     {
-        $schedules = $scheduleRepository->findByUser($this->getUser());
+        $schedules = $scheduleRepository->allByUser($this->getUser());
 
         return $this->render('schedule/index.html.twig', ['schedules' => $schedules]);
     }

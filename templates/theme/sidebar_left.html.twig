@@ -1,4 +1,5 @@
 <!-- Main Sidebar Container -->
+{% set uri = app.request.requestUri %}
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/" class="brand-link">
@@ -12,12 +13,17 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-                <img src="{{ gravatar(app.user.email) }}" class="img-circle elevation-2" alt="User Image">
+        <div class="user-panel mt-3 pb-3 mb-3">
+            <div class="d-flex">
+                <div class="image">
+                    <img src="{{ gravatar(app.user.email) }}" class="img-circle elevation-2" alt="User Image">
+                </div>
+                <div class="info">
+                    <a href="#" class="d-block">{{ app.user.username }}</a>
+                </div>
             </div>
-            <div class="info">
-                <a href="#" class="d-block">{{ app.user.username }}</a>
+            <div class="d-flex justify-content-center">
+                <a href="{{ url('app_logout') }}" class="btn btn-outline-info btn-xs" role="button">выход</a>
             </div>
         </div>
         <!-- Sidebar Menu -->
@@ -25,30 +31,44 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
                 <li class="nav-item">
-                    <a href="{{ url('schedule_index') }}" class="nav-link">
-                        <i class="nav-icon far fa-calendar-check"></i>
+                    <a href="{{ url('dashboard') }}" class="nav-link {{ uri starts with '/dashboard' ? 'active'}}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            Schedule
-{#                            <span class="right badge badge-danger">New</span>#}
+                            Dashboard
                         </p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('notifiable_index') }}" class="nav-link">
-                        <i class="nav-icon  fas fa-user-friends"></i>
-                        <p>
-                            Notifiable
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('tick_index') }}" class="nav-link">
-                        <i class=" nav-icon far fa-check-circle"></i>
+                    <a href="{{ url('tick_index') }}" class="nav-link {{ uri starts with '/tick' ? 'active'}}">
+                        <i class="nav-icon far fa-check-circle"></i>
                         <p>
                             Tick
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ url('notifiable_index') }}" class="nav-link {{ uri starts with '/notifiable' ? 'active'}}">
+                        <i class="nav-icon fas fa-user-friends"></i>
+                        <p>
+                            Notifiable
+                        </p>
+                    </a>
+                </li>
+                {% if isScheduleMenuEnabled(app.user) %}
+                <li class="nav-item">
+                    <a href="{{ url('schedule_index') }}" class="nav-link {{ uri starts with '/schedule' ? 'active'}}">
+                        <i class="nav-icon far fa-calendar-check"></i>
+                        <p>Schedule</p>
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a href="{{ url('schedule_index') }}" class="nav-link disabled">
+                        <i class="nav-icon far fa-calendar-check"></i>
+                        <p>Schedule</p>
+                    </a>
+                </li>
+                {% endif %}
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

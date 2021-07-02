@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Notifiable;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,4 +48,18 @@ class NotifiableRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @return Notifiable[] Returns an array of Notifiable objects
+     */
+    public function allByUser(User $user)
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('n.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

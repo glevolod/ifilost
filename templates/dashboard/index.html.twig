@@ -1,0 +1,117 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <h5 class="card-header">Tick</h5>
+        <div class="card-body">
+            {% if tick is not empty %}
+                <div class="card-text">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>{{ tick.id }}</td>
+                            <td>{{ tick.failSign }}</td>
+                            <td>{{ tick.sign }}</td>
+                            <td>{{ tick.prompt }}</td>
+                            <td>{{ tick.email }}</td>
+                            <td>{{ tick.emailConfirmedAt ? tick.emailConfirmedAt|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ tick.createdAt ? tick.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ tick.updatedAt ? tick.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="card-text text-right">
+                    <a href="{{ url('tick_index') }}" class="btn btn-primary">Управлять</a>
+                </div>
+            {% else %}
+                <div class="col-lg-8 mx-auto">
+                    <p class="lead mb-4">
+                        Добавьте параметры отметки <a href="{{ url('tick_index') }}">здесь</a>
+                    </p>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <div class="card">
+        <h5 class="card-header">Notifiables</h5>
+        <div class="card-body">
+            {% if notifiables is not empty %}
+                <div class="card-text">
+                    <table class="table table-bordered">
+                        {% for notifiable in notifiables %}
+                            <tr>
+                                <td>{{ notifiable.id }}</td>
+                                <td>{{ notifiable.email }}</td>
+                                <td>{{ notifiable.emailConfirmedAt ? notifiable.emailConfirmedAt|date('Y-m-d H:i:s') : '' }}</td>
+                                <td>{{ notifiable.text }}</td>
+                                <td>{{ notifiable.createdAt ? notifiable.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                                <td>{{ notifiable.updatedAt ? notifiable.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="card-text text-right">
+                    <a href="{{ url('notifiable_index') }}" class="btn btn-primary">Управлять</a>
+                </div>
+            {% else %}
+                <div class="col-lg-8 mx-auto">
+                    <p class="lead mb-4">
+                        Добавьте контакты уведомляемых друзей, если отметка не будет подтверждена вовремя <a href="{{ url('notifiable_index') }}">здесь</a>
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card">
+        <h5 class="card-header">Schedules</h5>
+        <div class="card-body">
+            {% if tick is not empty and notifiables is not empty %}
+                {% if schedules is not empty %}
+                    <div class="card-text">
+                        <table class="table table-bordered">
+                            {% for schedule in schedules %}
+                                <tr>
+                                    <th scope="row">{{ loop.index }}</th>
+                                    <td>{{ schedule.date|date('Y-m-d') }} {{ schedule.time|date('H:i') }}</td>
+                                    <td>{{ schedule.frequency }}</td>
+                                    <td>{{ schedule.timeout }}</td>
+                                    <td>{{ schedule.user.notifiables|join(', ') }}</td>
+                                    <td>{% if schedule.status == constant('App\\Entity\\Schedule::STATUS_ACTIVE') %}
+                                            <span class="badge badge-success">активно</span>
+                                        {% elseif schedule.status == constant('App\\Entity\\Schedule::STATUS_FINISHED') %}
+                                            <span class="badge badge-primary">завершено</span>
+                                        {% elseif schedule.status == constant('App\\Entity\\Schedule::STATUS_STOPPED_BY_USER') %}
+                                            <span class="badge badge-secondary">остановлено</span>
+                                        {% elseif schedule.status == constant('App\\Entity\\Schedule::STATUS_STOPPED_BY_SYSTEM') %}
+                                            <span class="badge badge-danger">прервано</span>
+                                        {% else %}
+                                            <span class="badge badge-dark">неивестно</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <div class="card-text text-right">
+                        <a href="{{ url('schedule_index') }}" class="btn btn-primary">Управлять</a>
+                    </div>
+                {% else %}
+                    <div class="col-lg-8 mx-auto">
+                        <p class="lead mb-4">
+                            Добавьте расписание <a href="{{ url('schedule_index') }}">здесь</a>
+                        </p>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="col-lg-8 mx-auto">
+                    <p class="lead mb-4">
+                        Здесь будут отображаться ближайшие подтверждения отметок после заполнения параметров проверки, контактов и расписания
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

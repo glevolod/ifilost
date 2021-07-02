@@ -64,4 +64,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
     }
     */
+    public function isScheduleEnabled(User $user): bool
+    {
+        $result = $this->createQueryBuilder('u')
+            ->select('u.id')
+            ->join('u.notifiables', 'n')
+            ->join('u.tick', 't')
+            ->andWhere('u.id = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult()
+            ;
+        return !!$result;
+    }
 }
